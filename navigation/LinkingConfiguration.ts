@@ -19,6 +19,11 @@ export default {
         },
       },
       NotFound: '*',
+      LoginRegister: {
+        screens: {
+          LoginRegisterScreen: 'loginRegister',
+        },
+      },
     },
   },
 };
