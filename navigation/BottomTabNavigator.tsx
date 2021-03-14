@@ -7,7 +7,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import CameraScreen from '../screens/CameraScreen';
+import { BottomTabParamList, TabOneParamList, TabTwoParamList, TabCameraParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -28,6 +29,13 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Camera"
+        component={TabCameraNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
@@ -69,5 +77,19 @@ function TabTwoNavigator() {
         options={{ headerTitle: 'Tab Two Title' }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+
+const TabCameraStack = createStackNavigator<TabCameraParamList>();
+
+function TabCameraNavigator() {
+  return (
+    <TabCameraStack.Navigator>
+      <TabCameraStack.Screen
+        name="CameraScreen"
+        component={CameraScreen}
+        options={{ headerTitle: 'Tab Two Title' }}
+      />
+    </TabCameraStack.Navigator>
   );
 }
