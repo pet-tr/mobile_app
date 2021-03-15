@@ -28,7 +28,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       <View style={{ height: 10 }} />
       <LineDivider> OR </LineDivider>
       <View style={{ height: 10 }} />
-      <Text style={{ marginBottom: 10 }}>Sign In With</Text>
+      <Text style={{ marginBottom: 10 }}>Log in with</Text>
       <View style={styles.socialIconsContainer}>
         <Icon type='facebook' onPress={() => {}}/>
         <Icon type='instagram' onPress={() => {}}/>
