@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function CameraScreen({ navigation: { goBack } }) {
 
@@ -35,47 +36,64 @@ export default function CameraScreen({ navigation: { goBack } }) {
     <View style={styles.container}>
       {hasFocus && <Camera ref={(ref) => { setCamera(ref) }} style={styles.camera} type={type}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity
-            style={styles.headerBackButton}
-            onPress={() => {
-              goBack();
-            }}>
-            <Text style={styles.text}> Back </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerFlashButton}
-            onPress={() => {
-              goBack();
-            }}>
-            <Text style={styles.text}> Flash </Text>
-          </TouchableOpacity>
-          
+          <View style={styles.headerBackContainer}>
+            <TouchableOpacity
+              style={styles.headerBackButton}
+              onPress={() => {
+                goBack();
+              }}>
+              <MaterialIcons name='arrow-back-ios' size={25} color='white' />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.headerFlashContainer}>
+            <TouchableOpacity
+              style={styles.headerFlashButton}
+              onPress={() => {
+                // goBack();
+              }}>
+              <MaterialCommunityIcons name='lightning-bolt' size={25} color='white' />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.footerContainer}>
-          <TouchableOpacity
-            style={styles.footerFlipButton}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerCaptureButton}
-            onPress={() => {
-            }}>
-            <Text style={styles.text}> Capture </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.footerFilterButton}
-            onPress={() => {
-            }}>
-            <Text style={styles.text}> Filter </Text>
-          </TouchableOpacity>
+          <View style={styles.footerFlipContainer}>
+            <TouchableOpacity
+              style={styles.footerFlipButton}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}>
+              { type === Camera.Constants.Type.back ?  
+                <Ionicons name='camera-reverse' size={35} color='white' /> :
+                <Ionicons name='camera-reverse-outline' size={35} color='white' />
+              }
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.footerCaptureContainer}>
+            <View style={styles.footerCaptureRing}>
+              <TouchableOpacity
+                style={styles.footerCaptureButton}
+                onPress={() => {
+                }}>
+                <View style={styles.footerCaptureButton} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+
+          <View style={styles.footerFilterContainer}>
+            <TouchableOpacity
+              style={styles.footerFilterButton}
+              onPress={() => {
+              }}>
+              <Ionicons name='color-filter' size={35} color='white' />
+            </TouchableOpacity>
+          </View>
         </View>
       </Camera>}
     </View>
@@ -89,44 +107,71 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-
+  // Header
   headerContainer: {
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
     margin: 30,
   },
-  headerBackButton:{
+  // Back Button
+  headerBackContainer: {
     flex: 0.5,
     alignSelf: 'flex-start',
-    alignItems: 'flex-start',
+  },
+  headerBackButton:{
+    alignSelf: 'flex-start',
+  },
+  // Flash Button
+  headerFlashContainer: {
+    flex: 0.5,
+    alignSelf: 'flex-start',
   },
   headerFlashButton: {
-    flex: 0.5,
-    alignSelf: 'flex-start',
-    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
   },
-
+  // Footer
   footerContainer: {
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
     margin: 30,
   },
-  footerFlipButton: {
+  // Flip Button
+  footerFlipContainer: {
     flex: 0.33,
     alignSelf: 'flex-end',
-    alignItems: 'center',
   },
-  footerCaptureButton: {
+  footerFlipButton: {
+    alignSelf: 'center',
+  },
+  // Capture Button
+  footerCaptureContainer: {
     flex: 0.34,
     alignSelf: 'flex-end',
-    alignItems: 'center',
   },
-  footerFilterButton: {
+  footerCaptureRing: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    height: 64,
+    width: 64,
+    borderRadius: 50,
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+  footerCaptureButton: {
+    alignSelf: 'center',
+    height: 56,
+    width: 56,
+    borderRadius: 50,
+    backgroundColor: "red",
+  },
+  // Filter Button
+  footerFilterContainer: {
     flex: 0.33,
     alignSelf: 'flex-end',
-    alignItems: 'center',
+  },
+  footerFilterButton: {
+    alignSelf: 'center',
   },
 
   text: {
