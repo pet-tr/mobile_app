@@ -28,7 +28,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   // TODO
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
