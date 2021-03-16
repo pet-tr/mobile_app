@@ -14,7 +14,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
   const [camera, setCamera] = React.useState<Camera | null>(null);
   const [hasPermission, setHasPermission] = React.useState<boolean>();
-  const [type, setType] = React.useState<'front' | 'back'>(Camera.Constants.Type.back);
+  const [type, setType] = React.useState<any>(Camera.Constants.Type.back);
   const [hasFocus, setFocus] = React.useState<boolean>(false); 
 
   React.useEffect(() => {
