@@ -42,7 +42,7 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
   const getAlbum = async () => {
     if (hasMediaLibPermission) {
 
-      const _album : MediaLibrary.Album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+      const _album: MediaLibrary.Album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
 
       if (_album != null) {
          
@@ -63,15 +63,15 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
       const { uri } = await camera.current.takePictureAsync();
 
-      const asset : MediaLibrary.Asset = await MediaLibrary.createAssetAsync(uri);
+      const asset: MediaLibrary.Asset = await MediaLibrary.createAssetAsync(uri);
 
       if (album == undefined) {
 
-        const _album : MediaLibrary.Album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, false);
+        const _album: MediaLibrary.Album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, false);
         setAlbum(_album)
 
       } else {
-        camera.current.state.src
+
         await MediaLibrary.addAssetsToAlbumAsync([asset], album);
 
       }
