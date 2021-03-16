@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Constants as C } from 'expo-camera';
+import { Camera } from 'expo-camera';
+import * as FileSystem  from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types';
@@ -10,19 +12,71 @@ interface CameraScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Camera'>;
 }
 
+const ALBUM_NAME : string = 'Pet-tr';
+
 const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
-  const [camera, setCamera] = React.useState<Camera | null>(null);
-  const [hasPermission, setHasPermission] = React.useState<boolean>();
-  const [type, setType] = React.useState<any>(Camera.Constants.Type.back);
+  const camera = React.useRef<Camera>()
+
+  const [cameraReady, setCameraReady] = React.useState<boolean>(false);
+  const [hasCamPermission, setCamPermission] = React.useState<boolean>();
+  const [hasMediaLibPermission, setMediaLibPermission] = React.useState<boolean>();
+
+  const [album, setAlbum] = React.useState<MediaLibrary.Album>();
+
+  const [camType, setcamType] = React.useState<any>(Camera.Constants.Type.back);
+  const [camFlashMode, setCamFlashMode] = React.useState<any>(Camera.Constants.FlashMode.off)
+
   const [hasFocus, setFocus] = React.useState<boolean>(false); 
 
+  const requestCamPermissions = async () => {
+    const { status } = await Camera.requestPermissionsAsync();
+    setCamPermission(status === 'granted');
+  };
+
+  const requestMediaLibPermissions = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    setMediaLibPermission(status === 'granted');
+  }
+
+  const getAlbum = async () => {
+    if (hasMediaLibPermission) {
+
+      const _album: MediaLibrary.Album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
+
+      if (_album != null) {
+         
+        setAlbum(_album);
+
+      }
+    }
+  }
+
   React.useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
+    requestCamPermissions();
+    requestMediaLibPermissions();
+    getAlbum();
   }, []);
+
+  const capture = async () => {
+    if (camera.current != null && cameraReady) {
+
+      const { uri } = await camera.current.takePictureAsync();
+
+      const asset: MediaLibrary.Asset = await MediaLibrary.createAssetAsync(uri);
+
+      if (album == undefined) {
+
+        const _album: MediaLibrary.Album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, false);
+        setAlbum(_album)
+
+      } else {
+
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album);
+
+      }
+    }
+  }
 
   useFocusEffect(() => {
     setFocus(true);
@@ -31,16 +85,23 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
     }
   })
 
-  if (hasPermission === undefined) {
+  if (hasCamPermission === undefined || hasMediaLibPermission === undefined) {
     return <View />;
   }
-  if (hasPermission === false) {
+
+  if (hasCamPermission === false || hasMediaLibPermission === false) {
     return <Text>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
-      {hasFocus && <Camera ref={(ref) => { setCamera(ref) }} style={styles.camera} type={type}>
+      {hasFocus && <Camera 
+        ref={(ref : Camera) => { camera.current = ref }}
+        onCameraReady={() => { setCameraReady(true) }} 
+        style={styles.camera}  
+        type={camType} 
+        flashMode={camFlashMode}
+      >
         <View style={styles.headerContainer}>
           <View style={styles.headerBackContainer}>
             <TouchableOpacity
@@ -55,8 +116,14 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
           <View style={styles.headerFlashContainer}>
             <TouchableOpacity
               style={styles.headerFlashButton}
-              onPress={() => {}}>
-              <MaterialCommunityIcons name='lightning-bolt' size={25} color='white' />
+              onPress={() => {
+                setCamFlashMode(
+                  camFlashMode === Camera.Constants.FlashMode.off
+                    ? Camera.Constants.FlashMode.on
+                    : Camera.Constants.FlashMode.off
+                )
+              }}>
+              <MaterialCommunityIcons name={ camFlashMode === Camera.Constants.FlashMode.off ? 'lightning-bolt-outline' : 'lightning-bolt' } size={25} color='white' />
             </TouchableOpacity>
           </View>
         </View>
@@ -66,13 +133,13 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
             <TouchableOpacity
               style={styles.footerFlipButton}
               onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
+                setcamType(
+                  camType === Camera.Constants.Type.back
                     ? Camera.Constants.Type.front
                     : Camera.Constants.Type.back
                 );
               }}>
-              <Ionicons name={ type === Camera.Constants.Type.back ? 'camera-reverse' : 'camera-reverse-outline' } size={35} color='white' />
+              <Ionicons name={ camType === Camera.Constants.Type.back ? 'camera-reverse' : 'camera-reverse-outline' } size={35} color='white' />
             </TouchableOpacity>
           </View>
           
@@ -80,7 +147,9 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
             <View style={styles.footerCaptureRing}>
               <TouchableOpacity
                 style={styles.footerCaptureButton}
-                onPress={() => {}}>
+                onPress={() => { 
+                  capture(); 
+                 }}>
                 <View style={styles.footerCaptureButton} />
               </TouchableOpacity>
             </View>
@@ -153,8 +222,8 @@ const styles = StyleSheet.create({
   footerCaptureRing: {
     alignSelf: 'center',
     justifyContent: 'center',
-    height: 64,
-    width: 64,
+    height: 72,
+    width: 72,
     borderRadius: 50,
     backgroundColor: "rgba(0,0,0,0.4)",
   },

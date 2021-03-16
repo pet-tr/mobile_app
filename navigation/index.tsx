@@ -28,6 +28,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   // TODO
+
+
   const isLoggedIn = true;
   return (
     <Stack.Navigator
