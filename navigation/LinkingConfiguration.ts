@@ -19,6 +19,16 @@ export default {
         },
       },
       NotFound: '*',
+      Login: {
+        screens: {
+          LoginScreen: 'login',
+        },
+      },
+      Register: {
+        screens: {
+          RegisterScreen: 'register',
+        },
+      },
     },
   },
 };
