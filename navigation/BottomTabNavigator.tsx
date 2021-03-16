@@ -38,6 +38,7 @@ export default function BottomTabNavigator() {
         component={TabCameraNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarVisible: false,
         }}
       />
     </BottomTab.Navigator>
@@ -88,7 +89,7 @@ function TabCameraNavigator() {
       <TabCameraStack.Screen
         name="CameraScreen"
         component={CameraScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+        options={{ headerTitle: 'Camera', headerShown: false }}
       />
     </TabCameraStack.Navigator>
   );
