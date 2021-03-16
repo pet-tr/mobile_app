@@ -7,12 +7,13 @@ import * as MediaLibrary from 'expo-media-library';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types';
+import { CameraType, FlashMode } from './types';
 
 interface CameraScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Camera'>;
 }
 
-const ALBUM_NAME : string = 'Pet-tr';
+const ALBUM_NAME: string = 'Pet-tr';
 
 const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
@@ -24,31 +25,26 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
   const [album, setAlbum] = React.useState<MediaLibrary.Album>();
 
-  const [camType, setcamType] = React.useState<any>(Camera.Constants.Type.back);
-  const [camFlashMode, setCamFlashMode] = React.useState<any>(Camera.Constants.FlashMode.off)
+  const [camType, setcamType] = React.useState<CameraType>(CameraType.back);
+  const [camFlashMode, setCamFlashMode] = React.useState<FlashMode>(FlashMode.off);
 
   const [hasFocus, setFocus] = React.useState<boolean>(false); 
 
   const requestCamPermissions = async () => {
     const { status } = await Camera.requestPermissionsAsync();
-    setCamPermission(status === 'granted');
+    setCamPermission(status === MediaLibrary.PermissionStatus.GRANTED);
   };
 
   const requestMediaLibPermissions = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
-    setMediaLibPermission(status === 'granted');
+    setMediaLibPermission(status === MediaLibrary.PermissionStatus.GRANTED);
   }
 
   const getAlbum = async () => {
     if (hasMediaLibPermission) {
 
       const _album: MediaLibrary.Album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
-
-      if (_album != null) {
-         
-        setAlbum(_album);
-
-      }
+      setAlbum(_album || undefined);
     }
   }
 
@@ -118,12 +114,12 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
               style={styles.headerFlashButton}
               onPress={() => {
                 setCamFlashMode(
-                  camFlashMode === Camera.Constants.FlashMode.off
-                    ? Camera.Constants.FlashMode.on
-                    : Camera.Constants.FlashMode.off
+                  camFlashMode === FlashMode.off
+                    ? FlashMode.on
+                    : FlashMode.off
                 )
               }}>
-              <MaterialCommunityIcons name={ camFlashMode === Camera.Constants.FlashMode.off ? 'lightning-bolt-outline' : 'lightning-bolt' } size={25} color='white' />
+              <MaterialCommunityIcons name={ camFlashMode === FlashMode.off ? 'lightning-bolt-outline' : 'lightning-bolt' } size={25} color='white' />
             </TouchableOpacity>
           </View>
         </View>
@@ -134,12 +130,12 @@ const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
               style={styles.footerFlipButton}
               onPress={() => {
                 setcamType(
-                  camType === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
+                  camType === CameraType.back
+                    ? CameraType.front
+                    : CameraType.back
                 );
               }}>
-              <Ionicons name={ camType === Camera.Constants.Type.back ? 'camera-reverse' : 'camera-reverse-outline' } size={35} color='white' />
+              <Ionicons name={ camType === CameraType.back ? 'camera-reverse' : 'camera-reverse-outline' } size={35} color='white' />
             </TouchableOpacity>
           </View>
           
