@@ -12,12 +12,10 @@ interface CameraScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Camera'>;
 }
 
-// const SAVE_DIR : string = FileSystem.documentDirectory + 'UserImages/';
 const ALBUM_NAME : string = 'Pet-tr';
 
 const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
-  // const [camera, setCamera] = React.useState<Camera | null>(null);
   const camera = React.useRef<Camera>()
 
   const [cameraReady, setCameraReady] = React.useState<boolean>(false);
