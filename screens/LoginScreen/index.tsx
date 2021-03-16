@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   register: {
     position: 'absolute',
     bottom: 0,
-    height: '10%',
+    height: '7%',
   },
   clickableText: {
     color: '#4797F1',

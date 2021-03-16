@@ -31,12 +31,11 @@ function RootNavigator() {
   const isLoggedIn = true;
   return (
     <Stack.Navigator
-      screenOptions={{ headerShown: false }}
       initialRouteName={isLoggedIn ? "Root" : "Login"}
     >
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerTitle: 'Login' }}/>
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }}/>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
