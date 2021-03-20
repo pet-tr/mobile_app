@@ -4,7 +4,7 @@ import { GestureResponderEvent, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface LoginFormProps {
-  onLogin?: ((event: GestureResponderEvent) => void);
+  onLogin?: (email: string, password: string) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = (props) => {
@@ -36,7 +36,9 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
       />
       <Button
         title="Log In"
-        onPress={onLogin}
+        onPress={() => {
+          if (onLogin) onLogin(email, password);
+        }}
         containerStyle={styles.loginButton}
       />
     </>

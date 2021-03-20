@@ -4,19 +4,27 @@ import { SocialIcon } from 'react-native-elements';
 import { SocialMediaType } from 'react-native-elements/dist/social/SocialIcon';
 import LineDivider from '../../components/LineDivider';
 import LoginForm from '../../components/LoginForm';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import firebase from 'firebase';
+import { useNavigation } from '@react-navigation/native';
 
 interface LoginScreenProps {
-  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
+
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
-  const onLogin = () => {};
+const LoginScreen: React.FC<LoginScreenProps> = () => {
+  const navigation = useNavigation();
+
+  const onLogin = (email: string, password: string) => {
+    firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {})
+      .catch(() => {}); // TODO: handle error
+  };
   const onRegister = () => navigation.navigate('Register');
   const forgotPasswordHandler = () => {};
 
+  // TODO: use Animated view to resize image when keyboard is overlaid
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/images/icon.png')} style={styles.image} />
@@ -80,9 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   register: {
-    position: 'absolute',
-    bottom: 0,
-    height: '7%',
+    marginTop: 10,
   },
   clickableText: {
     color: '#4797F1',

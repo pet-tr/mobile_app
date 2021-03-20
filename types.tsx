@@ -1,6 +1,7 @@
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
+  Loading: undefined;
   Login: undefined;
   Register: undefined;
   Camera: undefined;
