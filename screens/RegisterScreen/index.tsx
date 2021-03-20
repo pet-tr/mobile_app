@@ -1,18 +1,24 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import firebase from 'firebase';
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import RegisterForm from '../../components/RegisterForm';
-import { RootStackParamList } from '../../types';
 
 interface RegisterScreenProps {
-  navigation: StackNavigationProp<RootStackParamList, 'Register'>;
 }
 
 const RegisterScreen: React.FC<RegisterScreenProps> = (props) => {
+  const onRegister = (email: string, password: string) => {
+    firebase.auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {}) // TODO: email confirmation
+      .catch(() => {}); // TODO: handle error
+  }
+
+  // TODO: use Animated view to resize image when keyboard is overlaid
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/images/icon.png')} style={styles.image} />
-      <RegisterForm />
+      <RegisterForm onRegister={onRegister} />
     </View>
   );
 }

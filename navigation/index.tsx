@@ -1,5 +1,5 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import LoginScreen from '../screens/LoginScreen';
@@ -9,6 +9,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import LoadingScreen from '../screens/LoadingScreen';
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -27,15 +28,10 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  // TODO
-
-
-  const isLoggedIn = true;
   return (
-    <Stack.Navigator
-      initialRouteName={isLoggedIn ? "Root" : "Login"}
-    >
-      <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Navigator initialRouteName="Loading">
+      <Stack.Screen name="Loading" component={LoadingScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Login" component={LoginScreen}/>
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }}/>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />

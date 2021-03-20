@@ -1,5 +1,7 @@
+import firebase from 'firebase';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -9,6 +11,7 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Button title="sign out" onPress={() => firebase.auth().signOut()}/>
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );

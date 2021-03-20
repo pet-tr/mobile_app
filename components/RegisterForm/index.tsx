@@ -1,34 +1,22 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { GestureResponderEvent, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 
 interface RegisterFormProps {
-  onRegister?: ((event: GestureResponderEvent) => void);
+  onRegister?: (email: string, password: string) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
   const { onRegister } = props;
 
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  // TODO: dedicated screen for filling out personal info
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [verify, setVerify] = useState<string>('');
 
   return (
     <>
-      <Input
-        placeholder="First Name"
-        onChangeText={setFirstName}
-        value={firstName}
-        containerStyle={styles.inputs}
-      />
-      <Input
-        placeholder="Last Name"
-        onChangeText={setLastName}
-        value={lastName}
-        containerStyle={styles.inputs}
-      />
       <Input
         placeholder="E-mail"
         leftIcon={
@@ -48,9 +36,23 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
         secureTextEntry
         containerStyle={styles.inputs}
       />
+      <Input
+        placeholder="Verify Password"
+        leftIcon={
+          <MaterialIcons name="lock" size={20} color="grey" />
+        }
+        onChangeText={setVerify}
+        value={verify}
+        secureTextEntry
+        containerStyle={styles.inputs}
+      />
       <Button
         title="Create Account"
-        onPress={onRegister}
+        onPress={() => {
+          if (onRegister && verify === password) {
+            onRegister(email, password);
+          }
+        }}
         containerStyle={styles.registerButton}
       />
     </>
