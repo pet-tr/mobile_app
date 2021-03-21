@@ -6,7 +6,7 @@ import RegisterForm from '../../components/RegisterForm';
 interface RegisterScreenProps {
 }
 
-const RegisterScreen: React.FC<RegisterScreenProps> = (props) => {
+const RegisterScreen: React.FC<RegisterScreenProps> = () => {
   const onRegister = (email: string, password: string) => {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)

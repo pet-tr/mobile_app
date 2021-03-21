@@ -12,7 +12,7 @@ import { BottomTabParamList, TabOneParamList, TabTwoParamList, TabCameraParamLis
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator(): JSX.Element {
   const colorScheme = useColorScheme();
 
   return (
@@ -55,7 +55,7 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<TabOneParamList>();
 
-function TabOneNavigator() {
+function TabOneNavigator(): JSX.Element {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
@@ -69,7 +69,7 @@ function TabOneNavigator() {
 
 const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
-function TabTwoNavigator() {
+function TabTwoNavigator(): JSX.Element {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
@@ -83,7 +83,7 @@ function TabTwoNavigator() {
 
 const TabCameraStack = createStackNavigator<TabCameraParamList>();
 
-function TabCameraNavigator() {
+function TabCameraNavigator(): JSX.Element {
   return (
     <TabCameraStack.Navigator>
       <TabCameraStack.Screen

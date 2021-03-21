@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 interface LoadingScreenProps {
 }
 
-const LoadingScreen: React.FC<LoadingScreenProps> = (props) => {
+const LoadingScreen: React.FC<LoadingScreenProps> = () => {
   const navigation = useNavigation();
 
   const resetRoute = (name: string) => (

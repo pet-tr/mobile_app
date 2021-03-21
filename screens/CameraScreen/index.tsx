@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
-import * as FileSystem  from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { Ionicons, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -13,7 +12,7 @@ interface CameraScreenProps {
   navigation: StackNavigationProp<RootStackParamList, 'Camera'>;
 }
 
-const ALBUM_NAME: string = 'Pet-tr';
+const ALBUM_NAME = 'Pet-tr';
 
 const CameraScreen: React.FC<CameraScreenProps> = ({ navigation }) => {
 
