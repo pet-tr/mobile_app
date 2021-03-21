@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Input } from 'react-native-elements';
-import { GestureResponderEvent, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface LoginFormProps {

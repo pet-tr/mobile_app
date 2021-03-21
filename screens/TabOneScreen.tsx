@@ -6,7 +6,7 @@ import { Button } from 'react-native-elements';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
-export default function TabOneScreen() {
+export default function TabOneScreen(): JSX.Element {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>

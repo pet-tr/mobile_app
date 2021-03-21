@@ -10,7 +10,7 @@ import firebaseConfig from './config/firebase';
 
 firebase.initializeApp(firebaseConfig);
 
-export default function App() {
+export default function App(): JSX.Element | null {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
