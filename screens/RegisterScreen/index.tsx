@@ -6,6 +6,7 @@ import RegisterForm from '../../components/RegisterForm';
 interface RegisterScreenProps {
 }
 
+// Deprecate: fa3165a
 const RegisterScreen: React.FC<RegisterScreenProps> = () => {
   const onRegister = (email: string, password: string) => {
     firebase.auth()

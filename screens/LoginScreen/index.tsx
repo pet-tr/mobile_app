@@ -13,6 +13,7 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   const googleAuth = useGoogleAuth();
   const fbAuth = useFacebookAuth();
 
+  // Login with email/password removed in fa3165a
   return (
     <LinearGradient
         colors={["#47BDC4", "#f47fec"]}
