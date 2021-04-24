@@ -1,66 +1,59 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { SocialIcon } from 'react-native-elements';
 import { SocialMediaType } from 'react-native-elements/dist/social/SocialIcon';
-import LineDivider from '../../components/LineDivider';
-import LoginForm from '../../components/LoginForm';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import firebase from 'firebase';
-import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import useGoogleAuth from '../../hooks/useGoogleAuth';
+import useFacebookAuth from '../../hooks/useFacebookAuth';
 
 interface LoginScreenProps {
-
 }
 
 const LoginScreen: React.FC<LoginScreenProps> = () => {
-  const navigation = useNavigation();
+  const googleAuth = useGoogleAuth();
+  const fbAuth = useFacebookAuth();
 
-  const onLogin = (email: string, password: string) => {
-    firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {})
-      .catch(() => {}); // TODO: handle error
-  };
-  const onRegister = () => navigation.navigate('Register');
-  const forgotPasswordHandler = () => {};
-
-  // TODO: use Animated view to resize image when keyboard is overlaid
   return (
-    <View style={styles.container}>
-      <Image source={require('../../assets/images/icon.png')} style={styles.image} />
-      <LoginForm onLogin={onLogin} />
-      <View style={{ height: 15 }}/>
-      <TouchableOpacity>
-        <Text onPress={forgotPasswordHandler} style={styles.clickableText}>Forgot password?</Text>
-      </TouchableOpacity>
-      <View style={{ height: 10 }} />
-      <LineDivider> OR </LineDivider>
-      <View style={{ height: 10 }} />
-      <Text style={{ marginBottom: 10 }}>Log in with</Text>
-      <View style={styles.socialIconsContainer}>
-        <Icon type='facebook' onPress={() => {}}/>
-        <Icon type='instagram' onPress={() => {}}/>
-        <Icon type='google' onPress={() => {}}/>
+    <LinearGradient
+        colors={["#47BDC4", "#f47fec"]}
+        start={[0.1, 0.1]}
+        style={styles.linearGradient}
+    >
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={require('../../assets/logo/pettr.png')}
+            style={styles.image}
+          />
+        </View>
+        <Icon
+          type='google'
+          onPress={googleAuth}
+          title='Sign In With Google'
+        />
+        <Icon
+          type='facebook'
+          onPress={fbAuth}
+          title='Sign In With Facebook'
+        />
       </View>
-      <View style={styles.register}>
-      <TouchableOpacity>
-        <Text onPress={onRegister} style={styles.clickableText}>Create an account</Text>
-      </TouchableOpacity>
-      </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 interface IconProps {
   type: SocialMediaType;
+  title?: string;
   onPress?: () => void;
 }
 
-const Icon: React.FC<IconProps> = ({ type, onPress }) => {
+const Icon: React.FC<IconProps> = ({ type, title, onPress }) => {
   return (
+    <View style={styles.iconContainer}>
       <SocialIcon
         type={type}
-        button={false}
+        title={title}
+        button
         iconType={'font-awesome'}
         iconColor={'white'}
         raised
@@ -68,30 +61,37 @@ const Icon: React.FC<IconProps> = ({ type, onPress }) => {
         onPress={onPress}
         onLongPress={onPress}
       />
+    </View>
+      
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+  },
+  imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   image: {
-    width: 150,
-    height: 150,
-    marginBottom: 30,
-  },
-  socialIconsContainer: {
-    flexDirection: 'row',
     width: '75%',
-    justifyContent: 'space-between',
+    height: '75%',
   },
-  register: {
-    marginTop: 10,
+  iconContainer: {
+    width: '80%',
+    marginLeft: '10%',
+    top: '-10%',
   },
-  clickableText: {
-    color: '#4797F1',
+  linearGradient: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.95,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 

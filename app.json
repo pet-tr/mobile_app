@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "mobile_app",
-    "slug": "mobile_app",
+    "slug": "pet-tr",
+    "owner": "pet-tr",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
